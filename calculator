@@ -9,25 +9,31 @@ def add(first: float, second: float) -> float:
 	return first + second
 
 
+def subtract(first: float, second: float) -> float:
+	"""Return the difference between two numbers."""
+	return first - second
+
+
 def format_result(value: float) -> str:
 	"""Avoid a trailing .0 when the result is a whole number."""
 	return str(int(value)) if value.is_integer() else str(value)
 
 
 def main() -> int:
-	if len(sys.argv) == 4 and sys.argv[1].lower() == "add":
+	if len(sys.argv) == 4 and sys.argv[1].lower() in ("add", "subtract"):
 		try:
 			first = float(sys.argv[2])
 			second = float(sys.argv[3])
 		except ValueError:
-			print("Usage: calculator add <number> <number>", file=sys.stderr)
+			print("Usage: calculator <add|subtract> <number> <number>", file=sys.stderr)
 			return 2
 
-		print(format_result(add(first, second)))
+		operation = add if sys.argv[1].lower() == "add" else subtract
+		print(format_result(operation(first, second)))
 		return 0
 
 	if len(sys.argv) != 1:
-		print("Usage: calculator add <number> <number>", file=sys.stderr)
+		print("Usage: calculator <add|subtract> <number> <number>", file=sys.stderr)
 		return 2
 
 	print("Calculator: enter two numbers separated by spaces, or press Ctrl+C to exit.")
